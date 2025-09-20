@@ -3,6 +3,7 @@ import { VoltAgent, VoltOpsClient, Agent, Memory } from "@voltagent/core";
 import { LibSQLMemoryAdapter } from "@voltagent/libsql";
 import { createPinoLogger } from "@voltagent/logger";
 import { openai } from "@ai-sdk/openai";
+import { openrouter } from "@openrouter/ai-sdk-provider";
 import { honoServer } from "@voltagent/server-hono";
 import { expenseApprovalWorkflow } from "./workflows";
 import { weatherTool } from "./tools";
@@ -24,7 +25,7 @@ const memory = new Memory({
 const agent = new Agent({
   name: "alma",
   instructions: "A helpful assistant that can check weather and help with various tasks",
-  model: openai("gpt-4o-mini"),
+  model: openrouter("z-ai/glm-4.5"),
   tools: [weatherTool],
   memory,
 });
