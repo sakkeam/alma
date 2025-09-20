@@ -1,12 +1,11 @@
 import "dotenv/config";
-import { VoltAgent, VoltOpsClient, Agent, Memory } from "@voltagent/core";
+import { VoltAgent, VoltOpsClient, Agent, Memory, MCPConfiguration } from "@voltagent/core";
 import { LibSQLMemoryAdapter } from "@voltagent/libsql";
 import { createPinoLogger } from "@voltagent/logger";
 import { openai } from "@ai-sdk/openai";
 import { openrouter } from "@openrouter/ai-sdk-provider";
 import { honoServer } from "@voltagent/server-hono";
 import { expenseApprovalWorkflow } from "./workflows";
-import { weatherTool } from "./tools";
 
 // Create a logger instance
 const logger = createPinoLogger({
@@ -22,11 +21,26 @@ const memory = new Memory({
   }),
 });
 
+const mcpConfig = new MCPConfiguration({
+  servers: {
+    playwright: {
+      type: "stdio",
+      command: "npx",
+      args: [
+        "-y",
+        "@playwright/mcp@latest",
+      ],
+    },
+  },
+});
+
+const toolsets = await mcpConfig.getToolsets();
+
 const agent = new Agent({
   name: "alma",
   instructions: "A helpful assistant that can check weather and help with various tasks",
   model: openrouter("z-ai/glm-4.5"),
-  tools: [weatherTool],
+  tools: [...toolsets.playwright.getTools()],
   memory,
 });
 
