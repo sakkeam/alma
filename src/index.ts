@@ -24,12 +24,8 @@ const memory = new Memory({
 const mcpConfig = new MCPConfiguration({
   servers: {
     playwright: {
-      type: "stdio",
-      command: "npx",
-      args: [
-        "-y",
-        "@playwright/mcp@latest",
-      ],
+      type: "streamable-http",
+      url: "http://localhost:8931/mcp",
     },
   },
 });

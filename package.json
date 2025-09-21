@@ -10,7 +10,8 @@
     "lint": "biome check ./src",
     "lint:fix": "biome check --write ./src",
     "typecheck": "tsc --noEmit",
-    "volt": "volt"
+    "volt": "volt",
+    "playwright-mcp": "npx -y @playwright/mcp@latest --browser firefox --port 8931"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.32",
