@@ -35,7 +35,11 @@ const toolsets = await mcpConfig.getToolsets();
 const agent = new Agent({
   name: "alma",
   instructions: "A helpful assistant that can check weather and help with various tasks",
-  model: openrouter("z-ai/glm-4.5"),
+  model: openrouter("z-ai/glm-4.5", {
+    reasoning: {
+      enabled: true,
+    },
+  }),
   tools: [...toolsets.playwright.getTools()],
   memory,
 });
